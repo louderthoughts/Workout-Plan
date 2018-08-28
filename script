@@ -3,47 +3,60 @@
 # setting and calculating weights
 
 oneRepMax = [100, 60, 80, 35]
-exercises = [“Squat”, “Benchpress”, “Deadlift”, “Overhead Press”]
+exercises = ['Squat', 'Benchpress', 'Deadlift', 'Overhead Press']
 trainingMax = [weight * 0.9 for weight in oneRepMax]
 
 # setting and calculating days and exercises
 
 weekCount = 0 # what week is it
 dayCount = 0 # what day is it
-repCount = [“5”, “3”, “1”] # how many reps of each set, based on the week
+repCount = ['5', '3', '1'] # how many reps of each set, based on the week
 exerciseCount = 0 # which exercise am i doing
-exerciseWeight = trainingMax[exerciseCount] # what is my training max for a given exercise
+
 rep = repCount[weekCount] # what week is it and how many reps do i do
 
 percent = [[0.65, 0.75, 0.85], [0.7, 0.8, 0.9], [0.75, 0.85, 0.95]]
 
 # defining functions
 
-def dayLoop():
-    print(f"Week {weekCount + 1} Day {dayCount + 1}") # specify what day and week it is
+def exerciseWeight(ex, pct):
+    exMax = trainingMax[ex] # what is my training max for the exercise i am doing
+    wgt = exMax * pct
+    return wgt
+
+def dayLoop(week, day):
+    print("Week " + str(week + 1) + " Day " + str(day + 1)) # specify what day and week it is
     print("Warm up: Box jumps x 15") # warmup (will add more elements later)
-    workoutMain(percent[weekCount]) # run the main workout loop
-    dayCount += 1 # set to the next day
+    workoutMain(*percent[week]) # run the main workout loop
 
 def workoutMain(a, b, c):
-    print(f"{exercises[exerciseCount]}: {exerciseWeight * a} x {rep}, {exerciseWeight * b} x {rep}, {exerciseWeight * c} x {rep}+")
-    print(f"{exercises[exerciseCount]}: {exerciseWeight * a} x 5 x 5")
+    global oneRepMax, exercises, trainingMax, exerciseCount, rep
+    # print the first main exercise and the 5x5
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, b)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, c)) + f" x {rep}+")
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5")
+    # move to the next exercise
     exerciseCount += 1
-    print(f"{exercises[exerciseCount]}: {exerciseWeight * a} x {rep}, {exerciseWeight * b} x {rep}, {exerciseWeight * c} x {rep}+")
-    print(f"{exercises[exerciseCount]}: {exerciseWeight * a} x 5 x 5")
-    exerciseCount += 1 
+    # print the second main exercise
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, b)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, c)) + f" x {rep}+")
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5")
+    # move to the next exercise
+    if exerciseCount < 3:
+        exerciseCount += 1
+    else:
+        exerciseCount = 0
 
 # print workout to console
 
-while weekCount < 3:
-    if dayCount < 3:
-        dayloop()
+while weekCount <= 2:
+    if dayCount <= 2:
+        dayLoop(weekCount, dayCount)
+        dayCount += 1 # set to the next day
     else:
         weekCount += 1
         dayCount = 0
 
 # quit the script
 
-else:
-    from sys import exit
-    sys.exit
+#else:
+#    from sys import exit
+#    sys.exit
