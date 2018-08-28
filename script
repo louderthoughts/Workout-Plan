@@ -20,42 +20,45 @@ percent = [[0.65, 0.75, 0.85], [0.7, 0.8, 0.9], [0.75, 0.85, 0.95]]
 # defining functions
 
 def exerciseWeight(ex, pct):
+    plate = 2.5
     exMax = trainingMax[ex] # what is my training max for the exercise i am doing
-    wgt = exMax * pct
+    wgt = 5 * (int(round(((exMax * pct) / 5), 1))) # multiply by the percentage for the appropriate workout day, then we round to the nearest 5
     return wgt
 
 def dayLoop(week, day):
-    print("Week " + str(week + 1) + " Day " + str(day + 1)) # specify what day and week it is
-    print("Warm up: Box jumps x 15") # warmup (will add more elements later)
+    print("Week " + str(week + 1) + " Day " + str(day + 1) + "\n") # specify what day and week it is
+    print("Warm up: Box jumps x 15\n") # warmup (will add more elements later)
     workoutMain(*percent[week]) # run the main workout loop
+    print("Accessories: Press ups x 50, Curls x 50, Lunges x 50\n")
 
 def workoutMain(a, b, c):
     global oneRepMax, exercises, trainingMax, exerciseCount, rep
     # print the first main exercise and the 5x5
     print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, b)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, c)) + f" x {rep}+")
-    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5")
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5\n")
     # move to the next exercise
     exerciseCount += 1
     # print the second main exercise
     print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, b)) + f" x {rep}, " + str(exerciseWeight(exerciseCount, c)) + f" x {rep}+")
-    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5")
+    print(f"{exercises[exerciseCount]}: " + str(exerciseWeight(exerciseCount, a)) + f" x 5 x 5\n")
     # move to the next exercise
     if exerciseCount < 3:
         exerciseCount += 1
     else:
         exerciseCount = 0
 
-# print workout to console
+# printing workout to console
 
 while weekCount <= 2:
     if dayCount <= 2:
         dayLoop(weekCount, dayCount)
         dayCount += 1 # set to the next day
     else:
+        print("---------------------------------------------------------------------------\n")
         weekCount += 1
         dayCount = 0
 
-# quit the script
+# quit the script (will implement later)
 
 #else:
 #    from sys import exit
